@@ -1,0 +1,59 @@
+
+let
+    // Define the SQL Server connection parameters
+    ServerName = "decision.database.windows.net",
+    DatabaseName = "finalDecision",
+
+    // Connect to SQL Server
+    Source_SQL = Sql.Database(ServerName, DatabaseName),
+
+    // Parameter for table selection
+    SelectedTableName = "",
+
+    // List of tables of interest
+    SelectedTables = {"Demo_Dashboard_53616C65732050726F64656374696F6E2044756D6D79", "Demo_Dashboard_536865657431", "DataRefreshSchedules", "ReportSchedules", "Users"},
+    FilteredTables = Table.SelectRows(Source_SQL, each List.Contains(SelectedTables, [Name])),
+
+    // Validate selected table exists
+    TargetTable = Table.SelectRows(FilteredTables, each [Name] = SelectedTableName),
+    CheckTable = if Table.IsEmpty(TargetTable) then 
+        error Error.Record(
+            "Table not found", 
+            "Available tables: " & Text.Combine(FilteredTables[Name], ", "), 
+            [RequestedTable = SelectedTableName]
+        )
+    else TargetTable,
+
+    // Extract table data
+    TableData = try Sql.Database(ServerName, DatabaseName, [Query="SELECT * FROM " & SelectedTableName])
+        otherwise error Error.Record(
+            "Data extraction failed",
+            "Verify table structure",
+            [TableName = SelectedTableName]
+        ),
+
+    // Detect and apply column types dynamically
+    ColumnsToTransform = Table.ColumnNames(TableData),
+    ChangedTypes = Table.TransformColumnTypes(
+        TableData,
+        List.Transform(
+            ColumnsToTransform,
+            each {_, 
+                let
+                    SampleValue = List.First(Table.Column(TableData, _), null),
+                    TypeDetect = if SampleValue = null then type text
+                        else if Value.Is(SampleValue, Number.Type) then
+                            if Number.Round(SampleValue) = SampleValue then Int64.Type else type number
+                        else if Value.Is(SampleValue, Date.Type) then type date
+                        else if Value.Is(SampleValue, DateTime.Type) then type datetime
+                        else type text
+                in
+                    TypeDetect}
+        )
+    ),
+
+    // Clean data
+    CleanedData = Table.SelectRows(ChangedTypes, each not List.Contains(Record.FieldValues(_), null)),
+    FinalTable_SQL = Table.Distinct(CleanedData)
+in
+    FinalTable_SQL

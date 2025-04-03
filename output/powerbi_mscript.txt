@@ -1,0 +1,57 @@
+
+let
+    // Load the Excel file
+    Source_Excel_Dataset = Excel.Workbook(File.Contents("D:\\TabToPowerbi\\output\\Demo_Dashboard.xlsx"), null, true),
+
+    // Parameter for sheet selection
+    SelectedSheetName = "",
+
+    // Filter sheets of interest
+    SelectedSheets = {"Sales Prodection Dummy", "Sheet1"},
+    FilteredSheets = Table.SelectRows(Source_Excel_Dataset, each List.Contains(SelectedSheets, [Name])),
+
+    // Validate selected sheet exists
+    TargetSheet = Table.SelectRows(FilteredSheets, each [Name] = SelectedSheetName),
+    CheckSheet = if Table.IsEmpty(TargetSheet) then 
+        error Error.Record(
+            "Sheet not found", 
+            "Available sheets: " & Text.Combine(FilteredSheets[Name], ", "), 
+            [RequestedSheet = SelectedSheetName]
+        )
+    else TargetSheet,
+
+    // Extract sheet data
+    SheetData = try CheckSheet{0}[Data] otherwise error Error.Record(
+        "Data extraction failed",
+        "Verify sheet structure",
+        [SheetName = SelectedSheetName, AvailableColumns = Table.ColumnNames(CheckSheet)]
+    ),
+
+    // Promote headers
+    PromotedHeaders = Table.PromoteHeaders(SheetData, [PromoteAllScalars=true]),
+    
+    // Detect and apply column types dynamically
+    ColumnsToTransform = Table.ColumnNames(PromotedHeaders),
+    ChangedTypes = Table.TransformColumnTypes(
+        PromotedHeaders,
+        List.Transform(
+            ColumnsToTransform,
+            each {_, 
+                let
+                    SampleValue = List.First(Table.Column(PromotedHeaders, _), null),
+                    TypeDetect = if SampleValue = null then type text
+                        else if Value.Is(SampleValue, Number.Type) then
+                            if Number.Round(SampleValue) = SampleValue then Int64.Type else type number
+                        else if Value.Is(SampleValue, Date.Type) then type date
+                        else if Value.Is(SampleValue, DateTime.Type) then type datetime
+                        else type text
+                in
+                    TypeDetect}
+        )
+    ),
+
+    // Clean data
+    CleanedData = Table.SelectRows(ChangedTypes, each not List.Contains(Record.FieldValues(_), null)),
+    FinalTable_Excel_Dataset = Table.Distinct(CleanedData)
+in
+    FinalTable_Excel_Dataset

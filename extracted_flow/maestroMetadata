@@ -1,0 +1,40 @@
+{
+  "majorVersion" : 1,
+  "minorVersion" : 0,
+  "flowEntryName" : "flow",
+  "displaySettingsEntryName" : "displaySettings",
+  "isPackagedMaestroDocument" : false,
+  "documentFeaturesUsedInDocument" : [ {
+    "id" : "nodeProperty.v2019_1_3.PrimaryKey",
+    "featureName" : "",
+    "firstSoftwareVersionSupportedIn" : {
+      "year" : 2019,
+      "quarterOfYear" : 1,
+      "versionString" : "2019.1.3",
+      "indexOfRelease" : 3
+    },
+    "notSupportedMessages" : [ "it_IT::Chiavi primarie incluse in fasi (supportato nelle versioni 2019.1.3 e successive)", "fr_CA::Clés primaires incluses dans les étapes (pris en charge dans la version 2019.1.3 et versions ultérieures)", "sv_SE::Primärnycklar inkluderade i steg (stöds i version 2019.1.3 och senare)", "pt_BR::Chaves primárias incluídas nas etapas (suportado na versão 2019.1.3 e posteriores)", "th_TH::มีคีย์หลักอยู่ในขั้นตอน (รองรับในเวอร์ชัน 2019.1.3 และใหม่กว่า)", "fr_FR::Clés primaires incluses dans les étapes (pris en charge dans la version 2019.1.3 et versions ultérieures)", "ja_JP::ステップに含まれるプライマリ キー (バージョン 2019.1.3 以降でサポートされています)", "de_DE::In Schritten enthaltene Primärschlüssel (unterstützt in Version 2019.1.3 und höher)", "en_GB::Primary Keys Included in Steps (supported in version 2019.1.3 and later)", "zh_TW::步驟中包含的主索引鍵 (版本 2019.1.3 及更高版本中支援)", "ko_KR::단계에 포함된 기본 키(버전 2019.1.3 이상에서 지원됨)", "en_US::Primary Keys Included in Steps (supported in version 2019.1.3 and later)", "ga_IE::33c5-表:57ad-表:Primary Keys Included in Steps|桜 (supported in version 2019.1.3 and later)|桜", "es_ES::Claves principales incluidas en pasos (admitido en la versión 2019.1.3 y posteriores)", "zh_CN::步骤中包括的主键 (版本 2019.1.3 及更高版本中支持)" ],
+    "minimumCompatibleSoftwareVersion" : {
+      "year" : 2019,
+      "quarterOfYear" : 1,
+      "versionString" : "2019.1.3",
+      "indexOfRelease" : 3
+    }
+  }, {
+    "id" : "document.v2019_1_3.Flow",
+    "featureName" : "",
+    "firstSoftwareVersionSupportedIn" : {
+      "year" : 2019,
+      "quarterOfYear" : 1,
+      "versionString" : "2019.1.3",
+      "indexOfRelease" : 3
+    },
+    "notSupportedMessages" : [ "it_IT::Chiavi primarie ed esterne incluse in fasi (supportato nelle versioni 2019.1.3 e successive)", "fr_CA::Clés primaires et étrangères incluses dans les étapes (pris en charge dans la version 2019.1.3 et versions ultérieures)", "sv_SE::Primär- och sekundärnycklar inkluderade i steg (stöds i version 2019.1.3 och senare)", "pt_BR::Chaves primária e estrangeira incluídas nas etapas (suportado na versão 2019.1.3 e posteriores)", "th_TH::มีคีย์หลักและคีย์นอกอยู่ในขั้นตอน (รองรับในเวอร์ชัน 2019.1.3 และใหม่กว่า)", "fr_FR::Clés primaires et étrangères incluses dans les étapes (pris en charge dans la version 2019.1.3 et versions ultérieures)", "ja_JP::ステップに含まれるプライマリ キーおよび外部キー (バージョン 2019.1.3 以降でサポートされています)", "de_DE::In Schritten enthaltene Primär- und Fremdschlüssel (unterstützt in Version 2019.1.3 und höher)", "en_GB::Primary and Foreign Keys Included in Steps (supported in version 2019.1.3 and later)", "zh_TW::步驟中包含的主索引鍵和外部索引鍵 (版本 2019.1.3 及更高版本中支援)", "ko_KR::단계에 포함된 기본 키 및 외래 키(버전 2019.1.3 이상에서 지원됨)", "en_US::Primary and Foreign Keys Included in Steps (supported in version 2019.1.3 and later)", "ga_IE::33c5-表:b6cb-表:Primary and Foreign Keys Included in Steps|桜 (supported in version 2019.1.3 and later)|桜", "es_ES::Claves principales y externas incluidas en pasos (admitido en la versión 2019.1.3 y posteriores)", "zh_CN::步骤中包括的主键和外键 (版本 2019.1.3 及更高版本中支持)" ],
+    "minimumCompatibleSoftwareVersion" : {
+      "year" : 2019,
+      "quarterOfYear" : 1,
+      "versionString" : "2019.1.3",
+      "indexOfRelease" : 3
+    }
+  } ]
+}

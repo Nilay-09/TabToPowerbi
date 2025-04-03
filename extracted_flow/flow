@@ -1,0 +1,497 @@
+{
+  "parameters" : {
+    "parameters" : { }
+  },
+  "initialNodes" : [ "363eaab7-c856-42a2-b702-a299ace6e122", "ea1da573-9cc3-44bd-8299-6f7609d5badf", "06f37b11-2ad1-45b2-b82a-e06a05b9cc0f" ],
+  "nodes" : {
+    "b01305db-53a3-4c42-a4ee-4f5c8a899585" : {
+      "nodeType" : ".v1.WriteToHyper",
+      "name" : "UserSql",
+      "id" : "b01305db-53a3-4c42-a4ee-4f5c8a899585",
+      "baseType" : "output",
+      "nextNodes" : [ ],
+      "serialize" : false,
+      "description" : null,
+      "hyperOutputFile" : "D:\\downloads\\dataset\\UserbySql.hyper",
+      "tdsOutput" : "D:\\downloads\\dataset\\UserbySql.tds"
+    },
+    "a432367e-d96e-44b9-9be8-2cfab0c9de78" : {
+      "nodeType" : ".v1.WriteToHyper",
+      "name" : "SalesSql",
+      "id" : "a432367e-d96e-44b9-9be8-2cfab0c9de78",
+      "baseType" : "output",
+      "nextNodes" : [ ],
+      "serialize" : false,
+      "description" : null,
+      "hyperOutputFile" : "D:\\downloads\\dataset\\SalesbySql.hyper",
+      "tdsOutput" : "D:\\downloads\\dataset\\SalesbySql.tds"
+    },
+    "41345206-52b9-463e-af9c-3dd0e12135c1" : {
+      "nodeType" : ".v1.WriteToHyper",
+      "name" : "ReturnSql",
+      "id" : "41345206-52b9-463e-af9c-3dd0e12135c1",
+      "baseType" : "output",
+      "nextNodes" : [ ],
+      "serialize" : false,
+      "description" : null,
+      "hyperOutputFile" : "D:\\downloads\\dataset\\ReturnbySql.hyper",
+      "tdsOutput" : "D:\\downloads\\dataset\\ReturnbySql.tds"
+    },
+    "913d3e99-6344-4b87-a9e3-8355f99fa057" : {
+      "nodeType" : ".v1.Container",
+      "name" : "Clean 2",
+      "id" : "913d3e99-6344-4b87-a9e3-8355f99fa057",
+      "baseType" : "container",
+      "nextNodes" : [ {
+        "namespace" : "Default",
+        "nextNodeId" : "b01305db-53a3-4c42-a4ee-4f5c8a899585",
+        "nextNamespace" : "Default"
+      } ],
+      "serialize" : false,
+      "description" : null,
+      "loomContainer" : {
+        "parameters" : {
+          "parameters" : { }
+        },
+        "initialNodes" : [ ],
+        "nodes" : { },
+        "connections" : { },
+        "dataConnections" : { },
+        "connectionIds" : [ ],
+        "dataConnectionIds" : [ ],
+        "nodeProperties" : { },
+        "extensibility" : null
+      },
+      "namespacesToInput" : { },
+      "namespacesToOutput" : { },
+      "providedParameters" : null
+    },
+    "7182fcae-8b17-4fd0-8c4a-d39c503b2162" : {
+      "nodeType" : ".v1.Container",
+      "name" : "Clean 3",
+      "id" : "7182fcae-8b17-4fd0-8c4a-d39c503b2162",
+      "baseType" : "container",
+      "nextNodes" : [ {
+        "namespace" : "Default",
+        "nextNodeId" : "41345206-52b9-463e-af9c-3dd0e12135c1",
+        "nextNamespace" : "Default"
+      } ],
+      "serialize" : false,
+      "description" : null,
+      "loomContainer" : {
+        "parameters" : {
+          "parameters" : { }
+        },
+        "initialNodes" : [ ],
+        "nodes" : { },
+        "connections" : { },
+        "dataConnections" : { },
+        "connectionIds" : [ ],
+        "dataConnectionIds" : [ ],
+        "nodeProperties" : { },
+        "extensibility" : null
+      },
+      "namespacesToInput" : { },
+      "namespacesToOutput" : { },
+      "providedParameters" : null
+    },
+    "363eaab7-c856-42a2-b702-a299ace6e122" : {
+      "nodeType" : ".v1.LoadSql",
+      "name" : "ReturnTable",
+      "id" : "363eaab7-c856-42a2-b702-a299ace6e122",
+      "baseType" : "input",
+      "nextNodes" : [ {
+        "namespace" : "Default",
+        "nextNodeId" : "7182fcae-8b17-4fd0-8c4a-d39c503b2162",
+        "nextNamespace" : "Default"
+      } ],
+      "serialize" : false,
+      "description" : null,
+      "connectionId" : "50ace0a6-6d5d-446f-a280-7de6e43a885f",
+      "connectionAttributes" : {
+        "dbname" : "SampleTestData"
+      },
+      "fields" : [ {
+        "name" : "OrderID",
+        "type" : "integer",
+        "collation" : null,
+        "caption" : "",
+        "ordinal" : 1,
+        "isGenerated" : false
+      }, {
+        "name" : "Status",
+        "type" : "string",
+        "collation" : "LEN_RUS_S2_VWIN",
+        "caption" : "",
+        "ordinal" : 2,
+        "isGenerated" : false
+      } ],
+      "actions" : [ ],
+      "debugModeRowLimit" : 393216,
+      "originalDataTypes" : { },
+      "randomSampling" : null,
+      "updateTimestamp" : 1742456350939,
+      "restrictedFields" : { },
+      "userRenamedFields" : { },
+      "selectedFields" : null,
+      "samplingType" : null,
+      "groupByFields" : null,
+      "filters" : [ ],
+      "relation" : {
+        "type" : "table",
+        "table" : "[dbo].[ReturnTable]"
+      }
+    },
+    "ea1da573-9cc3-44bd-8299-6f7609d5badf" : {
+      "nodeType" : ".v1.LoadSql",
+      "name" : "SalesTable",
+      "id" : "ea1da573-9cc3-44bd-8299-6f7609d5badf",
+      "baseType" : "input",
+      "nextNodes" : [ {
+        "namespace" : "Default",
+        "nextNodeId" : "94704c0f-3fc1-44c2-99eb-e914848ac6d7",
+        "nextNamespace" : "Default"
+      } ],
+      "serialize" : false,
+      "description" : null,
+      "connectionId" : "50ace0a6-6d5d-446f-a280-7de6e43a885f",
+      "connectionAttributes" : {
+        "dbname" : "SampleTestData"
+      },
+      "fields" : [ {
+        "name" : "RowID",
+        "type" : "integer",
+        "collation" : null,
+        "caption" : "",
+        "ordinal" : 1,
+        "isGenerated" : false
+      }, {
+        "name" : "OrderID",
+        "type" : "integer",
+        "collation" : null,
+        "caption" : "",
+        "ordinal" : 2,
+        "isGenerated" : false
+      }, {
+        "name" : "OrderDate",
+        "type" : "date",
+        "collation" : null,
+        "caption" : "",
+        "ordinal" : 3,
+        "isGenerated" : false
+      }, {
+        "name" : "ShipDate",
+        "type" : "date",
+        "collation" : null,
+        "caption" : "",
+        "ordinal" : 4,
+        "isGenerated" : false
+      }, {
+        "name" : "ShipMode",
+        "type" : "string",
+        "collation" : "LEN_RUS_S2_VWIN",
+        "caption" : "",
+        "ordinal" : 5,
+        "isGenerated" : false
+      }, {
+        "name" : "CustomerID",
+        "type" : "integer",
+        "collation" : null,
+        "caption" : "",
+        "ordinal" : 6,
+        "isGenerated" : false
+      }, {
+        "name" : "CustomerName",
+        "type" : "string",
+        "collation" : "LEN_RUS_S2_VWIN",
+        "caption" : "",
+        "ordinal" : 7,
+        "isGenerated" : false
+      }, {
+        "name" : "Segment",
+        "type" : "string",
+        "collation" : "LEN_RUS_S2_VWIN",
+        "caption" : "",
+        "ordinal" : 8,
+        "isGenerated" : false
+      }, {
+        "name" : "CountryRegion",
+        "type" : "string",
+        "collation" : "LEN_RUS_S2_VWIN",
+        "caption" : "",
+        "ordinal" : 9,
+        "isGenerated" : false
+      }, {
+        "name" : "City",
+        "type" : "string",
+        "collation" : "LEN_RUS_S2_VWIN",
+        "caption" : "",
+        "ordinal" : 10,
+        "isGenerated" : false
+      }, {
+        "name" : "CountryState",
+        "type" : "string",
+        "collation" : "LEN_RUS_S2_VWIN",
+        "caption" : "",
+        "ordinal" : 11,
+        "isGenerated" : false
+      }, {
+        "name" : "PostalCode",
+        "type" : "integer",
+        "collation" : null,
+        "caption" : "",
+        "ordinal" : 12,
+        "isGenerated" : false
+      }, {
+        "name" : "Region",
+        "type" : "string",
+        "collation" : "LEN_RUS_S2_VWIN",
+        "caption" : "",
+        "ordinal" : 13,
+        "isGenerated" : false
+      }, {
+        "name" : "ProductID",
+        "type" : "integer",
+        "collation" : null,
+        "caption" : "",
+        "ordinal" : 14,
+        "isGenerated" : false
+      }, {
+        "name" : "Category",
+        "type" : "string",
+        "collation" : "LEN_RUS_S2_VWIN",
+        "caption" : "",
+        "ordinal" : 15,
+        "isGenerated" : false
+      }, {
+        "name" : "SubCategory",
+        "type" : "string",
+        "collation" : "LEN_RUS_S2_VWIN",
+        "caption" : "",
+        "ordinal" : 16,
+        "isGenerated" : false
+      }, {
+        "name" : "ProductName",
+        "type" : "string",
+        "collation" : "LEN_RUS_S2_VWIN",
+        "caption" : "",
+        "ordinal" : 17,
+        "isGenerated" : false
+      }, {
+        "name" : "Sales",
+        "type" : "integer",
+        "collation" : null,
+        "caption" : "",
+        "ordinal" : 18,
+        "isGenerated" : false
+      }, {
+        "name" : "Quantity",
+        "type" : "integer",
+        "collation" : null,
+        "caption" : "",
+        "ordinal" : 19,
+        "isGenerated" : false
+      }, {
+        "name" : "Discount",
+        "type" : "integer",
+        "collation" : null,
+        "caption" : "",
+        "ordinal" : 20,
+        "isGenerated" : false
+      } ],
+      "actions" : [ ],
+      "debugModeRowLimit" : 393216,
+      "originalDataTypes" : { },
+      "randomSampling" : null,
+      "updateTimestamp" : 1742456352225,
+      "restrictedFields" : { },
+      "userRenamedFields" : { },
+      "selectedFields" : null,
+      "samplingType" : null,
+      "groupByFields" : null,
+      "filters" : [ ],
+      "relation" : {
+        "type" : "table",
+        "table" : "[dbo].[SalesTable]"
+      }
+    },
+    "94704c0f-3fc1-44c2-99eb-e914848ac6d7" : {
+      "nodeType" : ".v1.Container",
+      "name" : "Clean 1",
+      "id" : "94704c0f-3fc1-44c2-99eb-e914848ac6d7",
+      "baseType" : "container",
+      "nextNodes" : [ {
+        "namespace" : "Default",
+        "nextNodeId" : "a432367e-d96e-44b9-9be8-2cfab0c9de78",
+        "nextNamespace" : "Default"
+      } ],
+      "serialize" : false,
+      "description" : null,
+      "loomContainer" : {
+        "parameters" : {
+          "parameters" : { }
+        },
+        "initialNodes" : [ "9f744fb6-122c-43d2-b35c-0a8d2df7bd92" ],
+        "nodes" : {
+          "b03ac53d-60e0-4aef-aa64-ca5f9915af1d" : {
+            "nodeType" : ".v1.AddColumn",
+            "columnName" : "Profit",
+            "expression" : "[Total Revenue On Each Sales]-([Sales]-[Discount])*[Quantity]",
+            "name" : "Add Profit",
+            "id" : "b03ac53d-60e0-4aef-aa64-ca5f9915af1d",
+            "baseType" : "transform",
+            "nextNodes" : [ ],
+            "serialize" : false,
+            "description" : null
+          },
+          "9f744fb6-122c-43d2-b35c-0a8d2df7bd92" : {
+            "nodeType" : ".v1.AddColumn",
+            "columnName" : "Total Revenue On Each Sales",
+            "expression" : "[Sales]*[Quantity]",
+            "name" : "Add Total Revenue On Each Sales",
+            "id" : "9f744fb6-122c-43d2-b35c-0a8d2df7bd92",
+            "baseType" : "transform",
+            "nextNodes" : [ {
+              "namespace" : "Default",
+              "nextNodeId" : "b03ac53d-60e0-4aef-aa64-ca5f9915af1d",
+              "nextNamespace" : "Default"
+            } ],
+            "serialize" : false,
+            "description" : null
+          }
+        },
+        "connections" : { },
+        "dataConnections" : { },
+        "connectionIds" : [ ],
+        "dataConnectionIds" : [ ],
+        "nodeProperties" : { },
+        "extensibility" : null
+      },
+      "namespacesToInput" : {
+        "Default" : {
+          "nodeId" : "9f744fb6-122c-43d2-b35c-0a8d2df7bd92",
+          "namespace" : "Default"
+        }
+      },
+      "namespacesToOutput" : {
+        "Default" : {
+          "nodeId" : "b03ac53d-60e0-4aef-aa64-ca5f9915af1d",
+          "namespace" : "Default"
+        }
+      },
+      "providedParameters" : null
+    },
+    "06f37b11-2ad1-45b2-b82a-e06a05b9cc0f" : {
+      "nodeType" : ".v1.LoadSql",
+      "name" : "UserTable",
+      "id" : "06f37b11-2ad1-45b2-b82a-e06a05b9cc0f",
+      "baseType" : "input",
+      "nextNodes" : [ {
+        "namespace" : "Default",
+        "nextNodeId" : "913d3e99-6344-4b87-a9e3-8355f99fa057",
+        "nextNamespace" : "Default"
+      } ],
+      "serialize" : false,
+      "description" : null,
+      "connectionId" : "50ace0a6-6d5d-446f-a280-7de6e43a885f",
+      "connectionAttributes" : {
+        "dbname" : "SampleTestData"
+      },
+      "fields" : [ {
+        "name" : "Region",
+        "type" : "string",
+        "collation" : "LEN_RUS_S2_VWIN",
+        "caption" : "",
+        "ordinal" : 1,
+        "isGenerated" : false
+      }, {
+        "name" : "Manager",
+        "type" : "string",
+        "collation" : "LEN_RUS_S2_VWIN",
+        "caption" : "",
+        "ordinal" : 2,
+        "isGenerated" : false
+      } ],
+      "actions" : [ ],
+      "debugModeRowLimit" : 393216,
+      "originalDataTypes" : { },
+      "randomSampling" : null,
+      "updateTimestamp" : 1742456355214,
+      "restrictedFields" : { },
+      "userRenamedFields" : { },
+      "selectedFields" : null,
+      "samplingType" : null,
+      "groupByFields" : null,
+      "filters" : [ ],
+      "relation" : {
+        "type" : "table",
+        "table" : "[dbo].[UserTable]"
+      }
+    }
+  },
+  "connections" : {
+    "50ace0a6-6d5d-446f-a280-7de6e43a885f" : {
+      "connectionType" : ".v1.SqlConnection",
+      "id" : "50ace0a6-6d5d-446f-a280-7de6e43a885f",
+      "name" : "DESKTOP-5JJ49LF\\SQLEXPRESS",
+      "isPackaged" : false,
+      "connectionAttributes" : {
+        "odbc-connect-string-extras" : "",
+        "sslmode" : "",
+        "server" : "DESKTOP-5JJ49LF\\SQLEXPRESS",
+        "IsolationLevel" : "",
+        "prep-protocol-role" : ":prep-protocol-reader",
+        ":flow-name" : "Flow1",
+        "odbc-dbms-name" : "",
+        ":protocol-clone-parent" : "",
+        ":use-allowlist" : "false",
+        "dbname" : "",
+        "minimum-driver-version" : "",
+        ":protocol-customizations" : "",
+        "one-time-sql" : "",
+        "class" : "sqlserver",
+        "odbc-native-protocol" : "yes",
+        "authentication" : "sspi"
+      }
+    }
+  },
+  "dataConnections" : { },
+  "connectionIds" : [ "50ace0a6-6d5d-446f-a280-7de6e43a885f" ],
+  "dataConnectionIds" : [ ],
+  "nodeProperties" : {
+    "7182fcae-8b17-4fd0-8c4a-d39c503b2162" : {
+      "com.tableau.loom.doc.fileformat.v2019_1_3.PrimaryKey" : {
+        "nodePropertyType" : ".v2019_1_3.PrimaryKey",
+        "empty" : false,
+        "fieldNames" : [ "OrderID" ]
+      }
+    },
+    "363eaab7-c856-42a2-b702-a299ace6e122" : {
+      "com.tableau.loom.doc.fileformat.v2019_1_3.PrimaryKey" : {
+        "nodePropertyType" : ".v2019_1_3.PrimaryKey",
+        "empty" : false,
+        "fieldNames" : [ "OrderID" ]
+      }
+    },
+    "ea1da573-9cc3-44bd-8299-6f7609d5badf" : {
+      "com.tableau.loom.doc.fileformat.v2019_1_3.PrimaryKey" : {
+        "nodePropertyType" : ".v2019_1_3.PrimaryKey",
+        "empty" : false,
+        "fieldNames" : [ "OrderID" ]
+      }
+    },
+    "94704c0f-3fc1-44c2-99eb-e914848ac6d7" : {
+      "com.tableau.loom.doc.fileformat.v2019_1_3.PrimaryKey" : {
+        "nodePropertyType" : ".v2019_1_3.PrimaryKey",
+        "empty" : false,
+        "fieldNames" : [ "OrderID" ]
+      }
+    }
+  },
+  "extensibility" : { },
+  "selection" : [ ],
+  "majorVersion" : 1,
+  "minorVersion" : 4,
+  "documentId" : "c8ebe8af-c035-4383-a675-89917a1bab00",
+  "obfuscatorId" : "983e6695-1df6-4360-9e71-db0841157351"
+}
