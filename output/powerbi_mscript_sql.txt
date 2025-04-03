@@ -25,7 +25,7 @@ let
     else TargetTable,
 
     // Extract table data
-    TableData = try Sql.Database(ServerName, DatabaseName, [Query="SELECT * FROM " & SelectedTableName])
+    TableData = try Sql.Database(ServerName, DatabaseName, [Query="SELECT * FROM [" & SelectedTableName & "]"])
         otherwise error Error.Record(
             "Data extraction failed",
             "Verify table structure",
