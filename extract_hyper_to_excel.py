@@ -1,24 +1,28 @@
 import re
 import pandas as pd
 from tableauhyperapi import HyperProcess, Connection, Telemetry, HyperException
+import warnings
 
 def extract_hyper_to_excel_direct(hyper_file, hyper_filename):
     """
     Extracts data directly from a .hyper file into a dictionary of DataFrames.
-    For each table, attempts to convert columns to datetime if possible.
+    Uses the table's original name (without adding the schema) and cleans hash suffixes.
+    Attempts to convert object columns to datetime if possible.
     """
     sheet_data = {}
     try:
         with HyperProcess(telemetry=Telemetry.SEND_USAGE_DATA_TO_TABLEAU) as hyper:
             with Connection(endpoint=hyper.endpoint, database=hyper_file) as connection:
+                # Use the "Extract" schema by default
                 schema_name = "Extract"
                 tables = connection.catalog.get_table_names(schema_name)
                 if not tables:
-                    print(f"❌ No tables found in {hyper_file}.")
+                    print(f"❌ No tables found in {hyper_file} under schema '{schema_name}'.")
                     return sheet_data
                 for table in tables:
+                    # Get table name without any schema information
                     table_name_str = str(table.name).replace('"', '')
-                    # Remove potential hash suffixes and sanitize sheet name
+                    # Remove potential hash suffixes and sanitize the sheet name
                     clean_table_name = re.sub(r'_[A-F0-9]{32}$', '', table_name_str).replace("!", "_")
                     columns = connection.catalog.get_table_definition(table).columns
                     column_names = [str(col.name).replace('"', '') for col in columns]
@@ -26,14 +30,16 @@ def extract_hyper_to_excel_direct(hyper_file, hyper_filename):
                     rows = connection.execute_query(query)
                     df = pd.DataFrame(rows, columns=column_names)
                     if df.empty:
-                        print(f"⚠ Table {clean_table_name} is empty. Skipping...")
+                        print(f"⚠ Table '{clean_table_name}' is empty. Skipping...")
                         continue
 
                     # Attempt to convert object columns to datetime when possible
                     for col in df.columns:
                         if df[col].dtype == 'object':
                             try:
-                                converted = pd.to_datetime(df[col], errors='raise', infer_datetime_format=True)
+                                with warnings.catch_warnings():
+                                    warnings.simplefilter("ignore", category=UserWarning)
+                                    converted = pd.to_datetime(df[col], errors='raise')
                                 if converted.notna().sum() > 0.8 * len(converted):
                                     df[col] = converted
                             except Exception:

@@ -5,7 +5,6 @@ from find_hyper_files import find_hyper_files, list_tables_in_hyper
 from extract_hyper_to_excel import extract_hyper_to_excel_direct
 from write_to_excel import write_dataframes_to_excel
 
-
 def process_twbx_file(twbx_file):
     """Orchestrates the full process from extraction to M script generation."""
     BASE_DIR, OUTPUT_DIR, _ = get_directories()
@@ -16,6 +15,7 @@ def process_twbx_file(twbx_file):
 
     # Step 2: Extract dataset names & table names from .twb files
     table_mapping, table_names = find_table_names()
+    # table_mapping maps hyper filenames to datasource captions
 
     # Step 3: Find .hyper files
     hyper_files = find_hyper_files()
@@ -36,6 +36,17 @@ def process_twbx_file(twbx_file):
     combined_sheet_data = {}
     for hyper_filename, hyper_file_path in hyper_files.items():
         sheet_data = extract_hyper_to_excel_direct(hyper_file_path, hyper_filename)
+        
+        # Use the TWB metadata to update the sheet name if a mapping exists.
+        if hyper_filename in table_mapping:
+            mapped_name = table_mapping[hyper_filename]
+            # If the key "Extract" exists in the sheet_data, rename it.
+            if "Extract" in sheet_data:
+                sheet_data[mapped_name] = sheet_data.pop("Extract")
+            else:
+                # If the extracted data has a different key, update all keys to the mapped name.
+                sheet_data = {mapped_name: df for _, df in sheet_data.items()}
+        
         combined_sheet_data.update(sheet_data)
 
     if not combined_sheet_data:
@@ -49,6 +60,7 @@ def process_twbx_file(twbx_file):
     print(f"\n✅ All data combined into {excel_path} with {len(sheet_names)} sheets.")
 
     return excel_path
+
 
 if __name__ == "__main__":
     twbx_file = input("🔹 Enter the path to the Tableau .twbx file: ").strip()

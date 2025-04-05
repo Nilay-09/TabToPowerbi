@@ -3,6 +3,13 @@ import pandas as pd
 import pyodbc
 from dataset_automate import process_twbx_file
 
+
+import warnings
+import pandas as pd
+
+
+
+
 # Connection helper using context managers
 def get_connection():
     conn_str = (
@@ -15,10 +22,13 @@ def get_connection():
     )
     return pyodbc.connect(conn_str)
 
+
 def auto_convert_column(series, threshold=0.8):
     """Convert series to datetime if most values can be converted."""
-    converted = pd.to_datetime(series, errors='coerce')
-    return converted if converted.notna().sum() >= threshold * len(series) else series
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=UserWarning)
+        converted = pd.to_datetime(series, errors='coerce')
+    return converted if converted.notna().sum() >= threshold * len(converted) else series
 
 def map_dtype(series):
     """Map a pandas series to a SQL Server data type."""
@@ -65,22 +75,40 @@ def create_table_and_insert_data(excel_file_path):
 
                 # Build the CREATE TABLE SQL statement.
                 columns = [f"[{col}] {map_dtype(df[col])}" for col in df.columns]
-                create_table_sql = f"CREATE TABLE {table_name} (\n  {',\n  '.join(columns)}\n);"
+                create_table_sql = f"CREATE TABLE [{table_name}] (\n  {',\n  '.join(columns)}\n);"
+
                 print(f"Creating table: {table_name}")
                 print("Create Table SQL:")
                 print(create_table_sql)
                 cursor.execute(create_table_sql)
                 conn.commit()
 
-                # Prepare and execute INSERT statement for each row.
+                # Prepare the INSERT statement.
                 columns_list = df.columns.tolist()
                 placeholders = ", ".join("?" * len(columns_list))
                 insert_sql = f"INSERT INTO {table_name} ({', '.join(f'[{col}]' for col in columns_list)}) VALUES ({placeholders})"
-                for _, row in df.iterrows():
+
+                # Enable fast_executemany if available (e.g., with pyodbc).
+                cursor.fast_executemany = True
+
+                # Batch insert using executemany.
+                batch_size = 10000
+                data_batch = []
+                for i, (_, row) in enumerate(df.iterrows(), start=1):
                     row_values = tuple(None if pd.isna(val) else val for val in row)
-                    cursor.execute(insert_sql, row_values)
-                conn.commit()
+                    data_batch.append(row_values)
+                    if i % batch_size == 0:
+                        cursor.executemany(insert_sql, data_batch)
+                        conn.commit()
+                        data_batch = []
+
+                # Insert any remaining rows.
+                if data_batch:
+                    cursor.executemany(insert_sql, data_batch)
+                    conn.commit()
+
                 print(f"Data inserted successfully into table: {table_name}\n")
+
 
 def get_all_table_names():
     """Fetch all table names from the SQL Server database."""
@@ -207,10 +235,3 @@ if __name__ == '__main__':
             file.write(mscript)
         print(f"\n✅ Power BI M script (SQL version) saved to: {MSCRIPT_FILE}")
     
-
-    original_name = "Sales_Production Dummy"
-    encoded_name = encode_sheet_name(original_name)
-    decoded_name = decode_sheet_name(encoded_name)
-    print(f"Original: {original_name}")
-    print(f"Encoded: {encoded_name}")
-    print(f"Decoded: {decoded_name}")

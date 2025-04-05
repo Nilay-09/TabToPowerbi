@@ -13,14 +13,14 @@ def find_hyper_files():
     return hyper_files
 
 def list_tables_in_hyper(hyper_file):
-    """Lists all tables inside a .hyper file."""
+    """Lists all tables inside a .hyper file in the 'Extract' schema only."""
     try:
         with HyperProcess(telemetry=Telemetry.SEND_USAGE_DATA_TO_TABLEAU) as hyper:
             with Connection(endpoint=hyper.endpoint, database=hyper_file) as connection:
                 schema_name = "Extract"
                 tables = connection.catalog.get_table_names(schema_name)
                 if not tables:
-                    print(f"⚠ No tables found in {hyper_file}.")
+                    print(f"⚠ No tables found in {hyper_file} under schema '{schema_name}'.")
                     return []
                 table_list = [table.name for table in tables]
                 return table_list

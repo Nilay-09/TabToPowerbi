@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+Dashboard Testing/
+output/
 # Virtual environment
 venv/
 .env/

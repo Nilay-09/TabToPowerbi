@@ -11,7 +11,7 @@ let
     SelectedTableName = "",
 
     // List of tables of interest
-    SelectedTables = {"Sales Prodection Dummy", "Sheet1"},
+    SelectedTables = {"seafood_data_with_kpis"},
     FilteredTables = Table.SelectRows(Source_SQL, each List.Contains(SelectedTables, [Name])),
 
     // Validate selected table exists

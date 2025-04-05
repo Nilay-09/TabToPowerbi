@@ -31,7 +31,7 @@ def write_dataframes_to_excel(sheet_data, excel_file):
                 cell_value = ws.cell(row=2, column=col_idx).value
                 if isinstance(cell_value, (pd.Timestamp, str)):
                     try:
-                        pd.to_datetime(cell_value, errors='raise', infer_datetime_format=True)
+                        pd.to_datetime(cell_value, errors='raise')
                         for row in range(2, ws.max_row + 1):
                             ws.cell(row=row, column=col_idx).number_format = 'yyyy-mm-dd'
                     except Exception:
